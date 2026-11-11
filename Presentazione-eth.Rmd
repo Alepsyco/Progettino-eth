@@ -1,0 +1,1049 @@
+---
+title: "Black Thursday sulla blockchain"
+subtitle: "Rete delle transazioni Ethereum del 12 marzo 2020"
+author: "Alessandro Fioritto"
+date: ""
+output:
+  ioslides_presentation:
+    widescreen: true
+    transition: faster
+---
+
+######################################################################################################
+
+```{css, echo=FALSE}
+:root {
+  --blu: #6f9bd6;
+  --azzurro: #a9c0e2;
+  --ocra: #d9a95a;
+  --sabbia: #e6d3ae;
+  --carta: #16263f;
+  --bordo: #2a3f63;
+  --testo: #e8ecf3;
+  --grigio: #b4bfd0;
+  --chiaro: #8592a8;
+  --titolo: #f6f1e6;
+}
+
+/* base */
+slides > slide {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color: var(--testo);
+  background: linear-gradient(160deg, #122039 0%, #0c1526 100%) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+slides > slide.backdrop { background: #0c1526 !important; }
+#footer { display: none !important; }
+
+slides > slide:not(.nobackground):not(.title-slide):after {
+  color: var(--chiaro) !important;
+  font-size: 15px !important;
+  right: 34px !important;
+  bottom: 18px !important;
+}
+
+/* titoli */
+slides > slide > hgroup > h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 38px;
+  line-height: 1.12;
+  font-weight: 700;
+  color: var(--titolo);
+  letter-spacing: -0.5px;
+  padding-left: 20px;
+  border-left: 9px solid var(--ocra);
+  margin-top: 4px;
+}
+
+slides > slide > article {
+  font-size: 23px;
+  line-height: 1.42;
+  color: var(--testo);
+}
+
+slides > slide > article p { margin: 0 0 12px 0; }
+slides > slide > article strong, slides > slide > article b { color: #ffffff; }
+slides > slide > article code { background: rgba(255,255,255,.08); color: var(--sabbia); padding: 1px 6px; border-radius: 4px; }
+
+/* copertina */
+slides > slide.title-slide {
+  text-align: left;
+  padding-left: 80px !important;
+}
+
+slides > slide.title-slide hgroup { margin-top: 150px; }
+
+slides > slide.title-slide hgroup h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 82px;
+  line-height: 1.02;
+  font-weight: 700;
+  color: var(--titolo);
+  letter-spacing: -2px;
+  text-align: left;
+  max-width: 760px;
+  border-left: 12px solid var(--ocra);
+  padding-left: 26px;
+}
+
+slides > slide.title-slide > hgroup > h3,
+slides > slide.title-slide > hgroup > h2 {
+  border-left: none !important;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--blu);
+  text-align: left;
+  margin-top: 28px;
+  padding-left: 38px;
+}
+
+slides > slide.title-slide hgroup p {
+  font-size: 21px;
+  color: var(--grigio);
+  text-align: left;
+  padding-left: 38px;
+  margin-top: 36px;
+}
+
+/* slide di sezione */
+slides > slide.level1 {
+  background: linear-gradient(135deg, #1f3a66 0%, #14233f 50%, #0c1526 100%) !important;
+  text-align: left;
+  padding-left: 90px !important;
+}
+
+slides > slide.level1 > hgroup > h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #ffffff;
+  font-size: 66px;
+  line-height: 1.04;
+  border-left: 12px solid var(--ocra);
+  padding-left: 28px;
+  margin-top: 190px;
+  letter-spacing: -1.5px;
+  text-align: left;
+}
+
+slides > slide.level1 > article {
+  position: absolute !important;
+  left: 90px;
+  top: 510px;
+  width: 760px;
+  color: #c6d2e6;
+  font-size: 28px;
+  line-height: 1.35;
+  padding-left: 40px;
+}
+
+slides > slide.level1:after { color: #8ea3c4 !important; }
+
+.numero-sezione {
+  position: absolute;
+  left: 800px;
+  top: -450px;
+  font-family: Georgia, serif;
+  font-size: 220px;
+  font-weight: 700;
+  color: rgba(217,169,90,.16);
+  line-height: 1;
+}
+
+/* schede */
+.cards { display: flex; gap: 24px; margin-top: 14px; }
+
+.card {
+  flex: 1;
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: 14px;
+  padding: 26px 28px 24px 28px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.35);
+  border-top: 7px solid var(--blu);
+}
+
+.card.ocra { border-top-color: var(--ocra); }
+.card.azzurro { border-top-color: var(--azzurro); }
+.card.scuro { border-top-color: var(--sabbia); }
+
+.card .titolo {
+  font-family: Georgia, serif;
+  font-size: 31px;
+  font-weight: 700;
+  color: var(--titolo);
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+
+.card p, .card li { font-size: 22px; color: var(--grigio); line-height: 1.38; margin: 0 0 6px 0; }
+
+/* numeri grandi */
+.stats { display: flex; gap: 20px; margin: 14px 0 6px 0; }
+
+.stat {
+  flex: 1;
+  min-width: 0;
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: 14px;
+  padding: 26px 12px 22px 12px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.35);
+  text-align: center;
+}
+
+.stat .num {
+  font-family: Georgia, serif;
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--blu);
+  line-height: 1;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+.stats.cinque .num { font-size: 44px; }
+.stat .num.medio { font-size: 36px; padding: 6px 0 4px 0; }
+.stat.ocra .num { color: var(--ocra); }
+.stat.scuro .num { color: var(--sabbia); }
+.stat .et { font-size: 19px; color: var(--grigio); margin-top: 8px; line-height: 1.25; }
+
+/* due colonne */
+.cols { display: flex; gap: 34px; align-items: center; }
+.cols > div { flex: 1; }
+.cols > div.stretto { flex: 0 0 34%; }
+.cols > div.largo { flex: 0 0 62%; }
+.cols > div.meta { flex: 0 0 48%; }
+
+/* riquadro del messaggio */
+.messaggio {
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-left: 8px solid var(--ocra);
+  border-radius: 0 12px 12px 0;
+  padding: 14px 22px;
+  font-size: 23px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.3);
+  margin-top: 16px;
+}
+
+.piccolo { font-size: 17px !important; color: var(--chiaro); }
+slides > slide > article p.ia, slides > slide > article div.ia p { font-size: 14px !important; line-height: 1.4; color: var(--chiaro); margin-top: 28px; }
+
+/* elenchi */
+slides > slide > article ul { margin-left: 4px; padding-left: 22px; }
+slides > slide > article li { margin-bottom: 8px; }
+slides > slide > article li::marker { color: var(--ocra); }
+
+/* tabelle */
+slides > slide > article table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 18px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 26px rgba(0,0,0,.35);
+}
+
+slides > slide table th, slides > slide table.rmdtable th, slides > slide table.rmdtable tr.header th {
+  background: #243e66 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: none !important;
+  text-shadow: none !important;
+  font-weight: 600;
+  padding: 7px 14px;
+  text-align: right;
+}
+
+slides > slide table th:first-child, slides > slide table.rmdtable th:first-child { text-align: left !important; }
+
+slides > slide table td, slides > slide table.rmdtable td {
+  background: #16263f !important;
+  border: none !important;
+  border-bottom: 1px solid #243653 !important;
+  color: var(--testo) !important;
+  padding: 4px 14px;
+  text-align: right;
+}
+
+slides > slide table td:first-child { text-align: left; font-weight: 600; }
+slides > slide table.rmdtable tr.even td { background: #1a2d4a !important; }
+slides > slide table tr:last-child td { border-bottom: none !important; }
+slides > slide > article table + ul { margin-top: 24px; }
+slides > slide > article div.piccolo + ul { margin-top: 20px; }
+slides > slide > article table + p { margin-top: 20px; }
+slides > slide table caption { caption-side: bottom; text-align: left; padding-top: 8px; font-size: 17px; color: var(--chiaro); }
+
+.punto { display: inline-block; width: 13px; height: 13px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+
+/* immagini e grafici */
+slides > slide > article img { display: block; margin: 0 auto; max-width: 100%; }
+.html-widget { margin: 0 auto 22px auto; }
+
+/* passaggi */
+.passi { display: flex; gap: 12px; margin-top: 18px; align-items: stretch; }
+
+.passo {
+  flex: 1 1 0;
+  min-width: 0;
+  background: var(--carta);
+  border: 1px solid var(--bordo);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.3);
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--grigio);
+}
+
+.passo b { display: block; color: #ffffff; font-size: 19px; margin-bottom: 4px; }
+
+.passo .n {
+  display: inline-block; width: 30px; height: 30px; line-height: 30px; text-align: center;
+  background: var(--ocra); color: #0c1526; border-radius: 50%; font-weight: 700; margin-bottom: 8px;
+}
+
+.passo code { font-size: 14px; padding: 1px 4px; }
+
+.freccia { align-self: center; color: var(--ocra); font-size: 30px; font-weight: 700; }
+
+.card, .stat, .passo, .messaggio { box-sizing: border-box; }
+
+/* centratura verticale (slide con {.centra}) */
+slides > slide > article.centra {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 440px;
+}
+
+/* animazione di ingresso */
+@keyframes sale { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+slides > slide.current .card,
+slides > slide.current .stat,
+slides > slide.current .passo,
+slides > slide.current .messaggio { animation: sale .55s ease both; }
+
+slides > slide.current .card:nth-child(2), slides > slide.current .stat:nth-child(2), slides > slide.current .passo:nth-child(3) { animation-delay: .12s; }
+slides > slide.current .card:nth-child(3), slides > slide.current .stat:nth-child(3), slides > slide.current .passo:nth-child(5) { animation-delay: .24s; }
+slides > slide.current .stat:nth-child(4), slides > slide.current .passo:nth-child(7) { animation-delay: .36s; }
+slides > slide.current .stat:nth-child(5) { animation-delay: .48s; }
+```
+
+######################################################################################################
+
+```{r librerie, include=FALSE}
+library("dplyr")
+library("tidyr")
+library("stringr")
+library("ggplot2")
+library("plotly")
+library("scales")
+library("igraph")
+library("moments")
+library("knitr")
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+colori <- c("pool di mining" = "#d9a95a", "exchange" = "#5f8fd6", "token e scambi" = "#a9c0e2", "non identificato" = "#7b8597")
+
+theme_set(theme_minimal(base_size = 13) +
+            theme(panel.grid.minor = element_blank(),
+                  panel.grid.major = element_line(colour = "#2a3f63", linewidth = 0.4),
+                  text = element_text(colour = "#b4bfd0"),
+                  axis.text = element_text(colour = "#8f9bb0"),
+                  plot.title = element_text(face = "bold", size = 16, colour = "#ffffff"),
+                  plot.background = element_rect(fill = NA, colour = NA),
+                  panel.background = element_rect(fill = NA, colour = NA),
+                  legend.position = "none"))
+
+fmt <- function(x, d = 0) format(round(x, d), big.mark = ".", decimal.mark = ",", trim = TRUE, scientific = FALSE)
+pct <- function(x, d = 0) paste0(format(round(100 * x, d), decimal.mark = ",", trim = TRUE), "%")
+
+sysplotly <- function(w) {
+  w$dependencies <- lapply(w$dependencies, function(d) {
+    if (d$name != "plotly-main") return(d)
+    cartella <- file.path(tempdir(), "plotlyjs")
+    dir.create(cartella, showWarnings = FALSE)
+    js <- readBin(system.file(file.path(d$src$file, d$script), package = d$package), "raw", 1e8)
+    i <- which(js == as.raw(26))
+    while (length(i) > 0) { js <- c(js[seq_len(i[1] - 1)], charToRaw("\\x1a"), js[-seq_len(i[1])]); i <- which(js == as.raw(26)) }
+    writeBin(js, file.path(cartella, d$script))
+    d$src <- list(file = cartella)
+    d$package <- NULL
+    d
+  })
+  w
+}
+
+interattivo <- function(p, larghezza, altezza) {
+  w <- ggplotly(p, tooltip = "text", width = larghezza, height = altezza)
+  w <- layout(w, paper_bgcolor = "rgba(0,0,0,0)", plot_bgcolor = "rgba(0,0,0,0)", hoverlabel = list(font = list(size = 15)))
+  w <- config(w, displayModeBar = FALSE)
+  sysplotly(w)
+}
+```
+
+```{r parametri, include=FALSE}
+start <- 9653384
+end <- 9659831
+ncampione <- 2000
+```
+
+```{r dati, include=FALSE}
+transactions <- readRDS("transactions.rds") %>% dplyr::filter(block >= start, block <= end)
+
+id <- tribble(~indirizzo, ~nome, ~categoria,
+              "0xdac17f958d2ee523a2206206994597c13d831ec7", "USDT", "token",
+              "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", "USDC", "token",
+              "0x6b175474e89094c44da98b954eedeac495271d0f", "DAI", "token",
+              "0x514910771af9ca656af840dff83e8264ecf986ca", "LINK", "token",
+              "0x9e9801bace260f58407c15e6e515c45918756e0f", "WorldUnitedCoins", "token",
+              "0x794e6e91555438afc3ccf1c5076a74f42133d08d", "OasisDEX", "scambio decentralizzato",
+              "0x2a0c0dbecc7e4d658f48e01e3fa353f44050c208", "Exchange", "scambio decentralizzato",
+              "0xd8a04f5412223f513dc55f839574430f5ec15531", "Maker Flip ETH A", "aste di liquidazione",
+              "0xea674fdde714fd979de3edf0f56aa9716b898ec8", "Ethermine", "pool di mining",
+              "0x52bc44d5378309ee2abf1539bf71de1b7d7be3b5", "Nanopool", "pool di mining",
+              "0x8fd00f170fdf3772c5ebdcd90bf257316c69ba45", "Spark Pool", "pool di mining",
+              "0x829bd824b016326a401d083b33d092293333a830", "F2Pool", "pool di mining",
+              "0x4c549990a7ef3fea8784406c1eecc98bf4211fa5", "Hiveon", "pool di mining",
+              "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be", "Binance", "exchange",
+              "0xd551234ae421e3bcba99a0da6d736074f22192ff", "Binance 2", "exchange",
+              "0x564286362092d8e7936f0549571a803b203aaced", "Binance 3", "exchange",
+              "0x0681d8db095565fe8a346fa0277bffde9c0edbbf", "Binance 4", "exchange",
+              "0xa12431d0b9db640034b0cdfceef9cce161e62be4", "HitBTC", "exchange",
+              "0xd7b9a9b2f665849c4071ad5af77d8c76aa30fb32", "Exmo", "exchange",
+              "0xa7efae728d2936e78bda97dc267687568dd593f3", "OKX", "exchange",
+              "0xc88f7666330b4b511358b7742dc2a3234710e7b1", "Blockchain.com", "exchange",
+              "0xf5bec430576ff1b82e44ddb5a1c93f6f9d0884f3", "Yobit", "exchange",
+              "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98", "Bittrex", "exchange",
+              "0x8e870d67f660d95d5be530380d0ec0bd388289e1", "USDP", "token",
+              "0x68e54af74b22acaccffa04ccaad13be16ed14eac", "WENI", "token",
+              "0xbcf935d206ca32929e1b887a07ed240f0d8ccd22", NA, "token",
+              "0x5e07b6f1b98a11f7e04e7ffa8707b63f1c177753", "MCH: Daily Action 3", NA,
+              "0x876eabf441b2ee5b5b0554fd502a8e0600950cfa", "Bitfinex 3", "exchange",
+              "0x742d35cc6634c0532925a3b844bc454e4438f44e", "Bitfinex 2", "exchange",
+              "0x267be1c1d684f78cb4f6a176c4911b741e4ffdc0", "Kraken 4", "exchange",
+              "0xd24400ae8bfebb18ca49be86258a3c749cf46853", "Gemini", "exchange",
+              "0x2b5634c42055806a59e9107ed44d43c426e58258", "KuCoin 1", "exchange",
+              "0x2819c144d5946404c0516b6f817a960db37d4929", "Remitano 2", "exchange",
+              "0x00192fb10df37c9fb26829eb2cc623cd1bf599e8", "2Miners", "pool di mining")
+
+ind <- function(nomi) id$indirizzo[match(nomi, id$nome)]
+gruppo <- function(categoria) ifelse(is.na(categoria), "non identificato", ifelse(categoria %in% c("token", "scambio decentralizzato", "aste di liquidazione"), "token e scambi", categoria))
+
+edgeA <- transactions %>% dplyr::filter(!is.na(to), from != to)
+edgeA <- edgeA %>% summarise(n_tx = n(), eth = sum(value_eth), .by = c(from, to))
+graphA <- graph_from_data_frame(edgeA, directed = TRUE)
+
+edgeB <- transactions %>% dplyr::filter(tipo == "trasferimento eth", from != to)
+edgeB <- edgeB %>% summarise(n_tx = n(), eth = sum(value_eth), .by = c(from, to))
+graphB <- graph_from_data_frame(edgeB, directed = TRUE)
+
+directed <- graphA
+undirected <- as_undirected(directed, mode = "collapse", edge.attr.comb = list(n_tx = "sum", eth = "sum"))
+contratti <- setdiff(unique(transactions$to[transactions$tipo == "contratto"]), transactions$from)
+grado <- degree(directed)
+
+compA <- components(graphA, mode = "weak")
+compB <- components(graphB, mode = "weak")
+confronto <- data.frame(rete = c("A: trasferimenti + chiamate a contratti", "B: solo trasferimenti di ETH"),
+                        nodi = c(vcount(graphA), vcount(graphB)),
+                        archi = c(ecount(graphA), ecount(graphB)),
+                        gradomedio = c(mean(degree(graphA)), mean(degree(graphB))),
+                        componentemax = c(max(compA$csize) / vcount(graphA), max(compB$csize) / vcount(graphB)),
+                        reciprocita = c(reciprocity(graphA), reciprocity(graphB)))
+
+tiponum <- transactions %>% group_by(tipo) %>% summarise("Numero di transazioni" = n(), "ETH mossi" = sum(value_eth))
+tiponum <- tiponum %>% pivot_longer(-tipo, names_to = "misura", values_to = "valore")
+tiponum <- tiponum %>% group_by(misura) %>% mutate(quota = valore / sum(valore)) %>% ungroup()
+tiponum <- tiponum %>% mutate(nome = ifelse(tipo == "contratto", "Chiamate a contratti", "Trasferimenti di ETH"))
+etichette <- tiponum %>% dplyr::filter(misura == "Numero di transazioni")
+etichette <- etichette %>% mutate(x = cumsum(quota) - quota / 2)
+quota_contratti_eth <- tiponum$quota[tiponum$tipo == "contratto" & tiponum$misura == "ETH mossi"]
+
+degrees <- bind_rows(data.frame(rete = "A: trasferimenti + chiamate a contratti", grado = degree(graphA)),
+                     data.frame(rete = "B: solo trasferimenti di ETH", grado = degree(graphB)))
+degrees <- degrees %>% count(rete, grado)
+degrees <- degrees %>% group_by(rete) %>% mutate(ccdf = rev(cumsum(rev(n))) / sum(n)) %>% ungroup()
+
+ccdf <- data.frame(grado = sort(unique(grado)))
+ccdf$quota <- sapply(ccdf$grado, function(k) mean(grado >= k))
+alfa <- 1 - coef(lm(log10(quota) ~ log10(grado), data = ccdf))[2]
+r2 <- summary(lm(log10(quota) ~ log10(grado), data = ccdf))$r.squared
+asimmetria <- skewness(grado)
+
+forza <- data.frame(indirizzo = V(directed)$name, grado = grado,
+                    trns = strength(directed, weights = E(directed)$n_tx),
+                    eth = strength(directed, weights = E(directed)$eth),
+                    contratto = V(directed)$name %in% contratti)
+spearman <- c(grado_trns = cor(forza$grado, forza$trns, method = "spearman"),
+              grado_eth = cor(forza$grado, forza$eth, method = "spearman"),
+              trns_eth = cor(forza$trns, forza$eth, method = "spearman"))
+
+forzaB <- data.frame(trns = strength(graphB, weights = E(graphB)$n_tx), eth = strength(graphB, weights = E(graphB)$eth))
+spearmanB <- cor(forzaB$trns, forzaB$eth, method = "spearman")
+
+quota_archi_zero <- mean(E(directed)$eth == 0)
+quota_vuoti <- 1 - n_distinct(transactions$block) / (end - start + 1)
+```
+
+```{r calcoli, include=FALSE}
+set.seed(1984)
+
+comunita <- cluster_louvain(undirected, weights = E(undirected)$n_tx)
+comunitaeth <- cluster_louvain(undirected, weights = E(undirected)$eth)
+hubnomi <- c("USDT", "Binance", "Ethermine", "Nanopool")
+dimcom <- function(cm, nodi) sapply(nodi, function(h) sum(membership(cm) == membership(cm)[h]))
+dentro <- function(cm, w) { e <- as_edgelist(undirected, names = FALSE); sum(w[membership(cm)[e[, 1]] == membership(cm)[e[, 2]]]) / sum(w) }
+louv <- list(n_trns = length(comunita), mod_trns = modularity(comunita), dentro_trns = dentro(comunita, E(undirected)$n_tx),
+             n_eth = length(comunitaeth), mod_eth = modularity(comunitaeth), dentro_eth = dentro(comunitaeth, E(undirected)$eth),
+             nmi = igraph::compare(comunita, comunitaeth, method = "nmi"),
+             dim_trns = sort(as.numeric(sizes(comunita)), decreasing = TRUE)[1:20],
+             soli_eth = sum(sizes(comunitaeth) == 1),
+             hub = data.frame(nome = hubnomi, trns = dimcom(comunita, ind(hubnomi)), eth = dimcom(comunitaeth, ind(hubnomi)), row.names = NULL))
+
+top10 <- function(p) { x <- head(sort(page_rank(directed, weights = p)$vector, decreasing = TRUE), 10); data.frame(indirizzo = names(x), punteggio = as.numeric(x)) }
+prtrns <- top10(E(directed)$n_tx)
+preth <- top10(E(directed)$eth)
+
+undirectedB <- as_undirected(graphB, mode = "collapse")
+ordineB <- names(sort(degree(graphB), decreasing = TRUE))
+componenteB <- function(nodi) max(components(delete_vertices(undirectedB, nodi))$csize) / vcount(undirectedB)
+rimossi <- c(0, 5, 10, 25, 50, 100, 200)
+resilienza <- data.frame(rimossi = rimossi,
+                         tolti_hub = sapply(rimossi, function(k) componenteB(ordineB[seq_len(k)])),
+                         tolti_casuali = sapply(rimossi, function(k) componenteB(sample(vcount(undirectedB), k))))
+top15 <- ordineB[1:15]
+pooltop <- top15[top15 %in% id$indirizzo[id$categoria == "pool di mining"]]
+gruppi <- data.frame(tolti = c("pool di mining", "exchange e simili", "tutti e 15"), n = c(length(pooltop), 15 - length(pooltop), 15),
+                     componente = c(componenteB(pooltop), componenteB(setdiff(top15, pooltop)), componenteB(top15)))
+
+comp <- components(undirected)
+lscc <- induced_subgraph(undirected, which(comp$membership == which.max(comp$csize)))
+campione <- sample(vcount(lscc), ncampione)
+tabdist <- rep(0, 80)
+for (g in split(campione, ceiling(seq_along(campione) / 200))) {
+  d <- distances(lscc, v = g)
+  tabdist <- tabdist + tabulate(as.integer(d[d > 0]), nbins = 80)
+}
+distanze <- list(media = sum(seq_along(tabdist) * tabdist) / sum(tabdist), massima = max(which(tabdist > 0)), quota_componente = vcount(lscc) / vcount(undirected))
+classiche <- list(transitivita = transitivity(undirected, type = "global"), assort_log = assortativity(undirected, log(degree(undirected)), directed = FALSE))
+
+compundB <- components(undirectedB)
+lsccB <- induced_subgraph(undirectedB, which(compundB$membership == which.max(compundB$csize)))
+campioneB <- sample(vcount(lsccB), ncampione)
+tabdistB <- rep(0, 80)
+for (g in split(campioneB, ceiling(seq_along(campioneB) / 200))) {
+  d <- distances(lsccB, v = g)
+  tabdistB <- tabdistB + tabulate(as.integer(d[d > 0]), nbins = 80)
+}
+distanzeB <- list(media = sum(seq_along(tabdistB) * tabdistB) / sum(tabdistB), massima = max(which(tabdistB > 0)))
+classicheB <- list(transitivita = transitivity(undirectedB, type = "global"), assort_log = assortativity(undirectedB, log(degree(undirectedB)), directed = FALSE))
+
+trnswindow <- transactions %>% mutate(ora = as.numeric(format(time, "%H")))
+trnswindow <- trnswindow %>% mutate(window = cut(ora, breaks = c(-1, 5, 11, 17, 23), labels = c("00-06", "06-12", "12-18", "18-24")))
+windowdf <- trnswindow %>% group_by(window) %>% summarise(tx = n(), blocchi = n_distinct(block), media_gas = mean(gas_price_gwei), eth_tot = sum(value_eth))
+hubfin <- c("USDT", "USDC", "Ethermine", "Binance", "Nanopool", "Spark Pool", "F2Pool", "Hiveon")
+reti <- data.frame()
+hubfinestra <- data.frame()
+for (i in levels(trnswindow$window)) {
+  edgefin <- trnswindow %>% dplyr::filter(window == i, !is.na(to), from != to)
+  edgefin <- edgefin %>% summarise(n_tx = n(), eth = sum(value_eth), .by = c(from, to))
+  g <- graph_from_data_frame(edgefin, directed = TRUE)
+  compfin <- components(g, mode = "weak")
+  reti <- rbind(reti, data.frame(finestra = i, compmax = max(compfin$csize) / vcount(g)))
+  dg <- degree(g)[ind(hubfin)]
+  hubfinestra <- rbind(hubfinestra, data.frame(finestra = i, nome = hubfin, grado = unname(ifelse(is.na(dg), 0, dg))))
+}
+ore <- trnswindow %>% group_by(ora) %>% summarise(gas_mediano = median(gas_price_gwei))
+```
+
+```{r approfondimenti, include=FALSE}
+trnscontratti <- transactions %>% dplyr::filter(tipo == "contratto", !is.na(to), to %in% contratti)
+contrattiHUB <- trnscontratti %>% summarise(chiamate = n(), chiamanti = n_distinct(from), .by = to)
+contrattiHUB <- contrattiHUB %>% mutate(quota = chiamate / sum(chiamate), chiamatemedie = chiamate / chiamanti)
+contrattiHUB <- contrattiHUB %>% arrange(desc(chiamate)) %>% head(10)
+contrattiHUB <- contrattiHUB %>% left_join(id, by = c("to" = "indirizzo"))
+contrattiHUB <- contrattiHUB %>% mutate(nome = coalesce(nome, paste0(substr(to, 1, 8), "...")),
+                                        categoria = coalesce(categoria, "non identificato"),
+                                        etichetta = paste0(nome, " (", categoria, ")"),
+                                        chiamanti_tipo = ifelse(chiamatemedie > 10, "pochi", "tanti"))
+ncontratti <- n_distinct(trnscontratti$to)
+una_chiamata <- mean(table(trnscontratti$to) == 1)
+piuattivo <- sapply(contrattiHUB$to, function(k) max(table(trnscontratti$from[trnscontratti$to == k])))[contrattiHUB$chiamanti_tipo == "pochi"]
+
+indirizziHUB <- data.frame(indirizzo = ordineB[1:15],
+                           entranti = degree(graphB, mode = "in")[ordineB[1:15]],
+                           uscenti = degree(graphB, mode = "out")[ordineB[1:15]],
+                           row.names = NULL)
+indirizziHUB <- indirizziHUB %>% mutate(grado = entranti + uscenti)
+indirizziHUB <- indirizziHUB %>% left_join(id, by = "indirizzo")
+indirizziHUB <- indirizziHUB %>% mutate(etichetta = ifelse(is.na(nome), paste0(substr(indirizzo, 1, 8), "... (non identificato)"), paste0(nome, " (", categoria, ")")))
+ethHUB <- tapply(strength(graphB, v = indirizziHUB$indirizzo, weights = E(graphB)$eth), indirizziHUB$categoria, sum)
+
+hub <- head(sort(grado, decreasing = TRUE), 20)
+vicini <- lapply(names(hub), function(h) neighbors(undirected, h)$name)
+toccati <- length(unique(c(names(hub), unlist(vicini))))
+
+flip <- transactions %>% dplyr::filter(to == ind("Maker Flip ETH A"))
+chiamanti_flip <- sort(table(flip$from), decreasing = TRUE)
+ore_flip <- flip %>% mutate(ora = as.numeric(format(time, "%H"))) %>% count(ora)
+ora_picco <- ore_flip$ora[which.max(ore_flip$n)]
+
+distributore <- transactions %>% dplyr::filter(from == "0x7c06a6b2e57593daa0040b0fbc2a9e0ff8fed0d5")
+
+bbHUB <- data.frame(indirizzo = names(hub), collegati = as.vector(hub), g1 = sapply(vicini, function(v) sum(grado[v] == 1)))
+bbHUB <- bbHUB %>% left_join(id, by = "indirizzo")
+bbHUB <- bbHUB %>% mutate(nome = coalesce(nome, paste0(substr(indirizzo, 1, 6), "...")),
+                          categoria = coalesce(categoria, "non identificato"),
+                          gruppo = ifelse(categoria %in% c("token", "scambio decentralizzato"), "token e scambi", categoria),
+                          quota = g1 / collegati,
+                          r = sqrt(collegati) / 100,
+                          testo = paste0(nome, " (", categoria, ")<br>", fmt(collegati), " indirizzi collegati<br>", fmt(g1), " (", round(100 * quota), "%) hanno grado 1"))
+bbHUB$x <- 0
+bbHUB$y <- 0
+for (i in 2:nrow(bbHUB)) {
+  giro <- 0
+  repeat {
+    bbHUB$x[i] <- 0.06 * giro * cos(giro)
+    bbHUB$y[i] <- 0.03 * giro * sin(giro)
+    if (all(sqrt((bbHUB$x[i] - bbHUB$x[1:(i - 1)])^2 + (bbHUB$y[i] - bbHUB$y[1:(i - 1)])^2) >= bbHUB$r[i] + bbHUB$r[1:(i - 1)] + 0.3)) break
+    giro <- giro + 0.02
+  }
+}
+bbHUB$y <- bbHUB$y + 0.7 * (nchar(bbHUB$nome) > 12)
+cerchi <- bbHUB %>% cross_join(data.frame(a = seq(0, 2 * pi, length.out = 60)))
+```
+
+```{r copertina, results="asis"}
+
+#sfondo della copertina con bolle degli hub
+bolle <- ggplot() +
+  geom_polygon(data = cerchi, aes(x = x + r * cos(a), y = y + r * sin(a), group = indirizzo, fill = gruppo), alpha = 0.32) +
+  geom_polygon(data = cerchi, aes(x = x + r * sqrt(quota) * cos(a), y = y + r * sqrt(quota) * sin(a), group = indirizzo, fill = gruppo), alpha = 0.6) +
+  scale_fill_manual(values = colori, guide = "none") +
+  coord_equal(xlim = c(min(bbHUB$x) - 3.2, max(bbHUB$x) + 0.4), ylim = range(bbHUB$y) + c(-1.4, 1.4)) +
+  theme_void() +
+  theme(plot.background = element_rect(fill = NA, colour = NA))
+immagine <- tempfile(fileext = ".png")
+ggsave(immagine, bolle, width = 19.2, height = 10.8, dpi = 100, bg = "transparent", device = ragg::agg_png)
+cat("<style>slides > slide.title-slide { background: linear-gradient(100deg, rgba(14,24,42,.97) 0%, rgba(14,24,42,.82) 45%, rgba(14,24,42,.25) 100%), url(",
+    xfun::base64_uri(immagine), ") center / cover no-repeat, #0c1526 !important; }</style>", sep = "")
+```
+
+## Struttura della rete {.centra}
+
+<div class="cards">
+<div class="card"><div class="titolo">Nodi e archi</div><p>Ogni indirizzo Ethereum è un nodo. Ogni coppia di indirizzi che interagisce è un arco orientato, da chi invia a chi riceve.</p></div>
+<div class="card ocra"><div class="titolo">Due pesi</div><p>Su ogni arco due pesi: quante transazioni (<b>n_tx</b>) e quanti ETH mossi (<b>eth</b>) sono passati tra i due indirizzi.</p></div>
+<div class="card azzurro"><div class="titolo">Un giorno</div><p>Giovedì 12 marzo 2020, il giorno del crollo dei mercati per il Covid.</p></div>
+</div>
+
+
+>- Per ogni blocco viene inoltrata una richiesta ad un endpoint pubblico di Alchemy con la chiamata JSON-RPC `eth_getBlockByNumber`, che restituisce tutte le transazioni del blocco. In totale sono stati scaricati `r fmt(end - start + 1)` blocchi, con `r fmt(nrow(transactions))` transazioni.
+
+
+## Tipi di chiamate e costruzione della rete
+
+Le transazioni sono principalmente di due tipi: trasferimenti di ETH e chiamate a contratti.
+Un trasferimento sposta ETH da un indirizzo a un altro mentre una chiamata a contratto permette di interagire con smart contracts per scambio di token, votazioni o aste e raramente muovono direttamente ETH.
+Il grafico mostra quante sono e quanti ETH muovono.
+
+```{r tipo, dev = "ragg_png", dev.args = list(bg = "transparent"), fig.width = 8.91, fig.height = 2.27, dpi = 110, out.width = "980px", fig.align = "center"}
+ggplot(tiponum, aes(x = quota, y = misura, fill = tipo)) +
+  geom_col(width = 0.55, colour = "#122039", linewidth = 1, position = position_stack(reverse = TRUE)) +
+  geom_text(aes(label = paste0(round(100 * quota), "%"), colour = tipo), position = position_stack(vjust = 0.5, reverse = TRUE), size = 6, fontface = "bold") +
+  geom_text(data = etichette, aes(x = x, y = misura, label = nome), inherit.aes = FALSE, nudge_y = 0.45, size = 4.6, colour = "#b4bfd0") +
+  labs(x = NULL, y = NULL) +
+  scale_fill_manual(values = c("contratto" = "#5f8fd6", "trasferimento eth" = "#dcc7a0")) +
+  scale_colour_manual(values = c("contratto" = "white", "trasferimento eth" = "#1a1a1a")) +
+  scale_x_continuous(labels = label_percent(), expand = expansion(mult = c(0, 0.02))) +
+  scale_y_discrete(expand = expansion(add = c(0.4, 0.75))) +
+  theme(panel.grid = element_blank(), axis.text.y = element_text(colour = "#e8ecf3", size = 14, face = "bold"))
+```
+
+La differenza sostanziale tra le due tipologie di transazioni richiede che vengano creati due grafi distinti per permettere una migliore analisi delle caratteristiche.
+
+```{r reti, results = "asis"}
+a_sinistra <- function(testo) paste0("<span style='display:block;text-align:left'>", testo, "</span>")
+tabreti <- data.frame(Rete = c("Rete\u00a0A", "Rete\u00a0B"),
+                      contiene = a_sinistra(c("Comprende tutte le transazioni, sia trasferimenti di ETH che chiamate a contratti (rete completa).",
+                                              "Solo i trasferimenti diretti di ETH, rappresenta principalmente portafogli ed exchange")),
+                      Nodi = fmt(confronto$nodi), Archi = fmt(confronto$archi),
+                      "Grado medio" = fmt(confronto$gradomedio, 2), "Componente maggiore" = pct(confronto$componentemax),
+                      "Reciprocità" = pct(confronto$reciprocita, 1), check.names = FALSE)
+kable(tabreti, format = "markdown", align = c("l", "l", "r", "r", "r", "r", "r"),
+      col.names = c("Rete", a_sinistra("Cosa contiene"), "Nodi", "Archi", "Grado medio", "Componente maggiore", "Reciprocità"))
+```
+
+
+# Parte 1: analisi della rete
+
+<div class="numero-sezione"></div>
+Gradi, distanze, resilienza, comunità
+
+## Quantificazione dei collegamenti
+
+Il grafico mostra, per ogni valore k, la percentuale di indirizzi che hanno almeno k collegamenti (grado ≥ k), in scala logaritmica.
+
+<div class="cols">
+<div class="largo">
+
+```{r gradi}
+classica <- degrees %>% dplyr::filter(startsWith(rete, "A")) %>% mutate(freq = n / sum(n), rete = "Distribuzione classica (rete A)")
+p <- ggplot(degrees, aes(x = grado, y = ccdf, colour = rete, group = rete,
+                         text = paste0(rete, "<br>Grado: ", fmt(grado), "<br>Nodi con grado ≥ ", fmt(grado), ": ", pct(ccdf, 3)))) +
+  geom_point(data = classica, aes(y = freq, text = NULL), size = 1, alpha = 0.55) +
+  geom_line(linewidth = 1) +
+  labs(x = "Grado (numero di collegamenti)", y = "Percentuale di nodi", colour = NULL) +
+  scale_colour_manual(values = c("A: trasferimenti + chiamate a contratti" = "#6f9bd6", "B: solo trasferimenti di ETH" = "#d9a95a", "Distribuzione classica (rete A)" = "#7b8597")) +
+  scale_x_log10(breaks = c(1, 10, 100, 1000, 10000), labels = label_number(big.mark = ".", decimal.mark = ",")) +
+  scale_y_log10(breaks = 10^(-5:0), labels = function(x) paste0(format(100 * x, scientific = FALSE, drop0trailing = TRUE, decimal.mark = ","), "%"))
+interattivo(p, 620, 440) %>% style(showlegend = FALSE, hoverinfo = "none", traces = 1) %>%
+  layout(legend = list(orientation = "h", x = 0, y = -0.25, font = list(color = "#b4bfd0")), showlegend = TRUE,
+         annotations = list(list(x = log10(1.15), y = log10(0.000012), xref = "x", yref = "y", xanchor = "left", showarrow = FALSE,
+                                 text = "distribuzione classica<br>(grado esattamente k)", font = list(color = "#9aa6bb", size = 11))))
+```
+
+</div>
+<div class="stretto">
+<div class="stat"><div class="num">`r fmt(asimmetria)`</div><div class="et">asimmetria del grado<br>(0 = simmetrica)</div></div>
+<div class="stat ocra" style="margin-top: 16px"><div class="num">`r format(round(alfa, 1), nsmall = 1, decimal.mark = ",")`</div><div class="et">esponente della legge di potenza</div></div>
+</div>
+</div>
+
+>- A causa della grande asimmetria per visualizzare al meglio la legge di potenza è stato necessario misurare quanti nodi hanno grado ≥ k: la curva è continua e sempre decrescente e la pendenza ne dà l'esponente.
+
+>- In scala logaritmica la cumulata è quasi una retta (R² = `r fmt(r2, 2)`) e la pendenza dà un esponente α ≈ `r format(round(alfa, 1), nsmall = 1, decimal.mark = ",")`, che rientra (al limite basso) nell'intervallo tipico delle reti scale-free, tra 2 e 3. La distribuzione dei gradi è quindi molto simile a una power law, anche se, come accade spesso nelle reti reali, vale soprattutto nella coda, cioè per i pochi hub con moltissimi collegamenti.
+
+
+## Distanza media e diametro  {.centra}
+
+Misure calcolate sulle reti A e B, ignorando la direzione degli archi. Per motivi di tempo i calcoli sono stati fatti con `r fmt(ncampione)` indirizzi casuali, quindi il diametro è leggermente sottostimato.
+
+```{r classiche, results = "asis"}
+tabclassiche <- data.frame(Rete = c("Rete A", "Rete B"),
+                           "Distanza media" = fmt(c(distanze$media, distanzeB$media), 2),
+                           "Diametro" = paste0("≥ ", c(distanze$massima, distanzeB$massima)),
+                           "Transitività" = fmt(c(classiche$transitivita, classicheB$transitivita), 5),
+                           "Assortatività (log)" = fmt(c(classiche$assort_log, classicheB$assort_log), 2), check.names = FALSE)
+kable(tabclassiche, format = "markdown", align = c("l", "r", "r", "r", "r"))
+```
+
+>- Una distanza media di `r fmt(distanze$media, 1)` è bassa nonostante i `r fmt(vcount(graphA))` indirizzi, quindi la rete ha caratteristiche di smallworldness; il diametro è però molto alto, quindi alcune coppie di indirizzi risultano molto distanti.
+
+>- La transitività è quasi zero e l'assortatività è negativa quindi gli hub si collegano a indirizzi con pochi collegamenti e raramente tra loro; ulteriore conferma di una rete a stella, con pochi hub al centro e tanti indirizzi ai margini.
+
+## Vulnerabilità a guasti e attacchi mirati {.centra}
+
+Visto che la rete è a stella, verifichiamo che un attacco mirato destabilizzi la struttura come da teoria: nella rete B togliamo gli indirizzi con più collegamenti e, per confronto, lo stesso numero di indirizzi scelti a caso. Il grafico mostra quanti indirizzi restano collegati tra loro (la componente maggiore, in percentuale della rete) man mano che se ne tolgono di più.
+
+<div class="cols">
+<div class="largo">
+
+```{r resilienza}
+res <- resilienza
+resl <- rbind(data.frame(rimossi = res$rimossi, quota = res$tolti_hub, scelta = "attacco mirato"),
+              data.frame(rimossi = res$rimossi, quota = res$tolti_casuali, scelta = "guasto casuale"))
+p <- ggplot(resl, aes(x = rimossi, y = quota, colour = scelta, group = scelta,
+                      text = paste0("Tolti ", rimossi, " indirizzi (", scelta, ")<br>Indirizzi ancora collegati: ", pct(quota, 1)))) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.5) +
+  annotate("text", x = 300, y = tail(res$tolti_hub, 1), label = "attacco mirato", size = 4.4, colour = "#6f9bd6") +
+  annotate("text", x = 300, y = tail(res$tolti_casuali, 1), label = "guasto casuale", size = 4.4, colour = "#9aa6bb") +
+  scale_colour_manual(values = c("attacco mirato" = "#6f9bd6", "guasto casuale" = "#8f9bb0")) +
+  scale_x_sqrt(breaks = res$rimossi, expand = expansion(mult = c(0.02, 0.42))) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(x = "Numero di indirizzi tolti", y = "Indirizzi ancora collegati tra loro")
+interattivo(p, 620, 440)
+```
+
+</div>
+<div class="stretto">
+
+>- La rete resiste ai guasti casuali ma è fragile agli attacchi mirati ed è la conferma della struttura a stella. Trattandosi però di una blockchain il significato di un eventuale attacco che disattiva i nodi principali è molto differente da una rete classica e per capire in che modo bisogna analizzare l'identità dei nodi (nella parte 2)
+
+</div>
+</div>
+
+## Chi ha più collegamenti non muove più ETH {.centra}
+
+Finora gli archi non sono stati pesati, ora operiamo sulla rete completa in due modi: un peso come numero di transazioni ed uno come ETH mossi, usando la rete A perché più significativa per questo tipo di analisi.
+
+Per ogni indirizzo vengono contati i collegamenti (con quanti indirizzi diversi comunica), il numero di transazioni singole (quante ne invia e ne riceve, tra trasferimenti e chiamate a contratti) e gli ETH mossi (quelli inviati e ricevuti). È possibile poi creare delle classifiche per misurazione e confrontarle con la correlazione di rango di Spearman.
+
+```{r correlazioni, results = "asis"}
+tabcorr <- data.frame("Classifiche confrontate" = c("Collegamenti e transazioni", "Collegamenti ed ETH mossi", "Transazioni ed ETH mossi"),
+                      Correlazione = fmt(unname(spearman), 2), check.names = FALSE)
+kable(tabcorr, format = "markdown", align = c("l", "r"), caption = "Correlazione di rango di Spearman: 1 = stessa classifica, 0 = nessun legame")
+```
+
+>- Chi ha più collegamenti fa anche più transazioni (`r fmt(spearman["grado_trns"], 2)`), ma non muove più ETH (`r fmt(spearman["grado_eth"], 2)`): anche le classifiche delle transazioni e degli ETH mossi sono molto diverse (`r fmt(spearman["trns_eth"], 2)`).
+
+>- Ad esempio, l'indirizzo con più collegamenti ne ha `r fmt(max(forza$grado))` e fa `r fmt(forza$trns[which.max(forza$grado)])` transazioni, ma muove `r fmt(forza$eth[which.max(forza$grado)])` ETH; un altro con soli `r fmt(forza$grado[forza$indirizzo == ind("Bitfinex 2")])` collegamenti muove `r fmt(forza$eth[forza$indirizzo == ind("Bitfinex 2")])` ETH.
+
+
+## Rilevamento comunità
+
+Una comunità è un gruppo di indirizzi più collegati tra loro che con il resto della rete. Sono state cercate con il metodo di Louvain, che mette a confronto la rete connettività di eventuali cluster rispetto ad una rete casuale, sulla rete A, pesandola nei due modi precedentemente descritti.
+
+```{r comunitepesi, results = "asis"}
+tabpesi <- data.frame(Misura = c("Comunità trovate"),
+                      "Peso n_tx" = c(fmt(louv$n_trns), fmt(louv$mod_trns, 2)),
+                      "Peso eth" = c(fmt(louv$n_eth), fmt(louv$mod_eth, 2)), check.names = FALSE)
+kable(tabpesi, format = "markdown", align = c("l", "r", "r"), caption = "Separazione comunità (0 = nessuna, 1 = netta)")
+```
+
+>- In entrambi i casi le comunità sono ben separate: con il peso n_tx il `r pct(louv$dentro_trns)` delle transazioni avviene tra indirizzi della stessa comunità, con il peso eth l'`r pct(louv$dentro_eth)` della moneta si sposta dentro una comunità.
+
+>- Nonostante la separazione sia comparabile, la similarità tra le due è molto bassa: i due pesi mettono in evidenza hub differenti.
+
+>- Il motivo è, ancora, che il `r pct(quota_archi_zero)` degli archi non muove ETH: quasi tutti sono chiamate a contratti. Con il peso ETH questi collegamenti valgono zero e non tengono più uniti i `r fmt(louv$soli_eth)` indirizzi che hanno solo collegamenti di questo tipo che restano quindi isolati, creando comunità da un singolo nodo.
+
+# Parte 2: analisi dei nodi
+
+<div class="numero-sezione"></div>
+A chi appartengono gli indirizzi.
+
+## I dieci hub più grandi: token, pool di mining ed exchange
+
+Tramite Etherscan, sito che permette di analizzare le transazioni sulla blockchain Ethereum, è stato possibile associare un nome ai nodi più centrali del grafo. 
+
+```{r hubtab, results = "asis"}
+hubA <- forza %>% arrange(desc(grado)) %>% head(10)
+hubA <- hubA %>% left_join(id, by = "indirizzo")
+hubA <- hubA %>% mutate(nome = coalesce(nome, paste0(substr(indirizzo, 1, 8), "...")), gruppo = gruppo(categoria))
+tabhub <- data.frame(Indirizzo = paste0("<span class='punto' style='background:", colori[hubA$gruppo], "'></span>", hubA$nome),
+                     Collegamenti = fmt(hubA$grado), "Transazioni (n_tx)" = fmt(hubA$trns), "ETH mossi" = fmt(hubA$eth), check.names = FALSE)
+kable(tabhub, format = "html", escape = FALSE, align = c("l", "r", "r", "r"))
+```
+
+<div class="piccolo" style="margin-top: 20px; margin-bottom: 22px"><span class="punto" style="background:#d9a95a"></span>pool di mining <span class="punto" style="background:#5f8fd6; margin-left:14px"></span>exchange <span class="punto" style="background:#a9c0e2; margin-left:14px"></span>contratti/token <span class="punto" style="background:#7b8597; margin-left:14px"></span>non identificato</div>
+
+>- Al contrario di una rete classica gli hub qui non sono semplici privati che scambiano grandi quantità di Ethereum ma sono contratti molto utilizzati per token (USDT, USDC, DAI, LINK) o exchange (Binance).
+
+## Hub visualizzati
+
+Visualizzando graficamente gli hub: ogni bolla è uno dei 20 indirizzi più connessi della rete completa, la grandezza è il numero di indirizzi collegati e la parte piena i nodi di grado 1, che senza l'hub resterebbero soli.
+
+```{r bolle}
+bbGRAPH <- ggplot() +
+  geom_polygon(data = cerchi, aes(x = x + r * cos(a), y = y + r * sin(a), group = indirizzo, fill = gruppo, text = testo), alpha = 0.3) +
+  geom_polygon(data = cerchi, aes(x = x + r * sqrt(quota) * cos(a), y = y + r * sqrt(quota) * sin(a), group = indirizzo, fill = gruppo, text = testo), colour = "#122039", linewidth = 0.4, alpha = 0.95) +
+  geom_text(data = bbHUB, aes(x = x, y = y - r - 0.17 - 0.2 * (nchar(nome) > 12), label = paste0(str_wrap(nome, 12), "\n", round(100 * quota), "%")), size = 2.9, lineheight = 0.9, colour = "#c3cde0") +
+  scale_fill_manual(values = colori, guide = "none") +
+  coord_equal() +
+  theme_void()
+interattivo(bbGRAPH, 980, 430)
+```
+
+<div class="piccolo" style="margin-top: 4px"><span class="punto" style="background:#d9a95a"></span>pool di mining <span class="punto" style="background:#5f8fd6; margin-left:14px"></span>exchange <span class="punto" style="background:#a9c0e2; margin-left:14px"></span>token e scambi <span class="punto" style="background:#7b8597; margin-left:14px"></span>non identificato</div>
+
+>- Per i pool di mining circa il `r pct(max(bbHUB$quota[bbHUB$categoria == "pool di mining"]))` dei collegati dipende dall'hub, per Binance solo il `r pct(bbHUB$quota[bbHUB$nome == "Binance"])`: la stella è più evidente nei pool piuttosto che negli exchange.
+
+## Per numero di transazioni gli hub sono i contratti, per ETH gli exchange
+
+Il PageRank misura l'importanza di un nodo in base all'importanza di chi lo collega. Il grafico mostra i dieci indirizzi con il PageRank più alto nella rete A, con archi pesati dal numero di transazioni (a sinistra) o dagli ETH mossi (a destra).
+
+```{r pagerank}
+pagepesi <- bind_rows(prtrns %>% mutate(peso = "peso: numero di transazioni"), preth %>% mutate(peso = "peso: ETH"))
+pagepesi <- pagepesi %>% left_join(id, by = "indirizzo")
+pagepesi <- pagepesi %>% mutate(nome = coalesce(nome, paste0(substr(indirizzo, 1, 8), "...")), gruppo = gruppo(categoria),
+                                chiave = paste(peso, nome, sep = "|"))
+pagepesi <- pagepesi %>% mutate(chiave = factor(chiave, levels = rev(chiave)), peso = factor(peso, levels = c("peso: numero di transazioni", "peso: ETH")))
+p <- ggplot(pagepesi, aes(x = punteggio, y = chiave, fill = gruppo,
+                          text = paste0(nome, " (", gruppo, ")<br>", peso, "<br>PageRank: ", fmt(punteggio, 4)))) +
+  geom_col(width = 0.72) +
+  facet_wrap(~ peso, scales = "free") +
+  scale_fill_manual(values = colori) +
+  scale_y_discrete(labels = function(x) sub("^.*\\|", "", x)) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.08))) +
+  labs(x = NULL, y = NULL) +
+  theme(panel.grid.major.y = element_blank(), panel.spacing = unit(2, "lines"), strip.text = element_text(face = "bold", colour = "#ffffff", size = 13, hjust = 0), axis.text.y = element_text(colour = "#e8ecf3", size = 12))
+interattivo(p, 980, 370)
+```
+
+<div class="piccolo" style="margin-top: 4px"><span class="punto" style="background:#a9c0e2"></span>token e scambi <span class="punto" style="background:#5f8fd6; margin-left:14px"></span>exchange <span class="punto" style="background:#7b8597; margin-left:14px"></span>non identificato</div>
+
+>- Come ci si può aspettare ci sono molti collegamenti a smart contract popolari (come Tether) e cambiare il peso degli archi mette in evidenza gli exchange, dove avviene lo scambio diretto di moneta.
+
+>- Si nota anche che molti exchange hanno più indirizzi (es. Binance 2/3/4): sono necessari per non tenere tutti i fondi nello stesso indirizzo, mantenere la privacy degli utenti (aumentando la difficoltà nel tracciamento delle transazioni) e per gestire più prelievi in parallelo; in una giornata di crisi come quella analizzata questo risulta ancora più utile.
+
+## Exchange e pool di mining
+
+Sappiamo che la rete B esclude i contratti, abbiamo quindi che i 15 indirizzi con più collegamenti sono i seguenti:
+
+```{r indirizzi, dev = "ragg_png", dev.args = list(bg = "transparent"), fig.width = 10.21, fig.height = 4.17, dpi = 96, out.width = "980px", fig.align = "center"}
+p <- ggplot(indirizziHUB, aes(y = reorder(etichetta, grado))) +
+  geom_col(aes(x = grado, fill = "invia a"), width = 0.66, position = "identity") +
+  geom_col(aes(x = entranti, fill = "riceve da"), width = 0.66, position = "identity") +
+  scale_fill_manual(values = c("riceve da" = "#5f8fd6", "invia a" = "#d9a95a")) +
+  scale_x_continuous(labels = label_number(big.mark = ".", decimal.mark = ","), expand = expansion(mult = c(0, 0.05))) +
+  labs(x = "Collegamenti (indirizzi diversi)", y = NULL, fill = NULL) +
+  theme(panel.grid.major.y = element_blank(), axis.text.y = element_text(colour = "#e8ecf3", size = 11), legend.position = "top", legend.text = element_text(colour = "#b4bfd0", size = 11))
+p
+```
+
+>- Tra i 15 più connessi ci sono `r sum(indirizziHUB$categoria == "exchange", na.rm = TRUE)` exchange e `r sum(indirizziHUB$categoria == "pool di mining", na.rm = TRUE)` pool di mining; gli exchange possono inviare e ricevere mentre i pool di mining sono adibiti solo al pagamento della somma ai collaboratori (tranne in casi speciali come Spark Pool).
+
+<!-- A quanto pare Sparkpool dava la possibilità di lavorare limitatamente anche come exchange -->
+
+>- Anche gli ETH mossi sono molto differenti: questi pool ne muovono `r fmt(ethHUB["pool di mining"])`, mentre gli exchange `r fmt(ethHUB["exchange"])` ETH, circa `r fmt(round(ethHUB["exchange"] / ethHUB["pool di mining"], -1))` volte di più.
+
+## L'indirizzo non identificato: `r fmt(nrow(distributore))` trasferimenti identici da 0,004 ETH {.centra}
+
+Uno degli indirizzi precedenti non ha trovato riscontro su Etherscan: ha grado `r fmt(n_distinct(distributore$to))` ma muove solo `r fmt(sum(distributore$value_eth))` ETH, si comporta in modo diverso sia dagli exchange che dai pool.
+
+>- Invia `r fmt(nrow(distributore))` trasferimenti, tutti di esattamente 0,004 ETH e con un prezzo poco variabile del gas (perlopiù 18 gwei), raramente due volte allo stesso indirizzo, senza ricevere nulla per tutto il giorno.
+
+>- Controllando alcuni destinatari su Etherscan, prima ricevono USDT da portafogli di un exchange e pochi minuti dopo arrivano 0,004 ETH ed in seguito mandano USDT e ETH a due indirizzi collettori: i 0,004 ETH servono quindi a pagare il gas per spostare l'USDT.
+
+>- È quindi con ogni probabilità un distributore di gas per gli indirizzi di deposito di un exchange: questo fa capire come le possibili funzioni dei nodi siano estremamente varie.
+
+## Contratti
+
+Torniamo ai contratti, che dominano per numero di transazioni: il grafico mostra la percentuale delle chiamate che ricevono i 10 contratti più utilizzati.
+
+```{r contratti}
+p <- ggplot(contrattiHUB, aes(x = quota, y = reorder(etichetta, quota), fill = factor(chiamanti_tipo, levels = c("tanti", "pochi"), labels = c("tanti indirizzi, poche chiamate a testa", "pochi indirizzi, molte chiamate a testa")),
+                              text = paste0(nome, "<br>Chiamate: ", fmt(chiamate), " (", pct(quota, 1), ")<br>Indirizzi chiamanti: ", fmt(chiamanti), "<br>Chiamate per indirizzo: ", fmt(chiamatemedie, 1)))) +
+  geom_col(width = 0.68) +
+  geom_text(aes(x = quota + 0.012, label = paste0(format(round(100 * quota, 1), decimal.mark = ","), "%")), size = 4.2, colour = "#b4bfd0", hjust = 0) +
+  scale_fill_manual(values = c("tanti indirizzi, poche chiamate a testa" = "#5f8fd6", "pochi indirizzi, molte chiamate a testa" = "#d9a95a")) +
+  scale_x_continuous(labels = percent, breaks = seq(0, 0.25, 0.05), expand = expansion(mult = c(0, 0.1))) +
+  labs(x = NULL, y = NULL, fill = NULL) +
+  theme(panel.grid.major.y = element_blank(), axis.text.y = element_text(colour = "#e8ecf3", size = 11))
+interattivo(p, 980, 470) %>% layout(margin = list(t = 70), legend = list(orientation = "h", x = 0, xanchor = "left", y = 1.12, yanchor = "bottom", font = list(color = "#b4bfd0")), showlegend = TRUE)
+```
+
+>- I `r sum(contrattiHUB$chiamanti_tipo == "tanti")` token (USDT, USDC, LINK, DAI) sono chiamati da migliaia di indirizzi, poche volte ciascuno.
+
+>- Gli altri `r sum(contrattiHUB$chiamanti_tipo == "pochi")` sono chiamati da pochi indirizzi (al massimo `r fmt(max(contrattiHUB$chiamanti[contrattiHUB$chiamanti_tipo == "pochi"]))`), ma molte volte ciascuno (in media almeno `r fmt(min(contrattiHUB$chiamatemedie[contrattiHUB$chiamanti_tipo == "pochi"]))` chiamate a testa).
+
+>- I pochi indirizzi che ripetono tante chiamate sono riconducibili a bot automatici per la partecipazione alle aste o per il semplice trading.
+
+>- Un esempio sono i due contratti non identificati: uno legge i prezzi di Uniswap e Kyber, probabilmente per fare arbitraggio, mentre l'altro scambia diversi token (DAI, WETH, USDC) come un portafoglio bot.
+
+
+## Comunità {.centra}
+
+Mettendo insieme i diversi tipi di hub visti finora e l'identità dei nodi, possiamo rivisitare le comunità della parte 1. La tabella dice quanti indirizzi ha la comunità di quattro hub, con il peso n_tx e con il peso ETH.
+
+```{r comunitahub, results = "asis"}
+tabcom <- louv$hub %>% mutate(trns = fmt(trns), eth = fmt(eth))
+kable(setNames(tabcom, c("Hub", "Indirizzi nella comunità (peso n_tx)", "Indirizzi nella comunità (peso ETH)")), format = "markdown", align = c("l", "r", "r"), row.names = FALSE)
+```
+
+>- Con il peso n_tx le tre comunità più grandi sono quelle di USDT, di Ethermine/Nanopool (i miner usano gli stessi exchange) e di Binance, ognuna centrata su un hub con i suoi clienti.
+
+>- Con il peso ETH la comunità di USDT si riduce a un solo indirizzo, perché i suoi archi valgono 0 ETH. Quelle di Binance, Ethermine/Nanopool, che muovono ETH, restano praticamente identiche: i pool pagano ogni indirizzo una sola volta, quindi nessuno dei due pesi ne spezza la stella.
+
+# Parte 3: analisi giornata
+
+<div class="numero-sezione"></div>
+La giornata del crollo di Ethereum a causa del covid: cambia la morfologia della rete o cambia solo l'attività?
+
+## Prezzo del gas in gwei
+
+Il grafico mostra il prezzo del gas mediano, cioè quanta moneta eth si è disposti a pagare per far eseguire una transazione in un determinato blocco.
+
+<div class="cols">
+<div class="largo">
+
+```{r gas}
+p <- ggplot(ore, aes(x = ora, y = gas_mediano, group = 1, text = paste0(sprintf("%02d:00", ora), " UTC<br>Gas mediano: ", fmt(gas_mediano, 1), " gwei"))) +
+  geom_line(colour = "#6f9bd6", linewidth = 1.1) +
+  geom_point(colour = "#6f9bd6", size = 2.5) +
+  annotate("text", x = ore$ora[which.max(ore$gas_mediano)], y = 1.17 * max(ore$gas_mediano), size = 4.4, colour = "#f6f1e6", hjust = 1,
+           label = paste0("Picco: ", round(max(ore$gas_mediano)), " gwei alle ", ore$ora[which.max(ore$gas_mediano)], ":00")) +
+  labs(x = "Ora (UTC)", y = "Gas mediano (gwei)") +
+  scale_x_continuous(breaks = seq(0, 23, 3), labels = function(x) sprintf("%02d:00", x)) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.2))) +
+  theme(panel.grid.major.x = element_blank())
+interattivo(p, 620, 430)
+```
+
+</div>
+<div class="stretto">
+
+```{r finestre, results = "asis"}
+wd <- windowdf
+kable(data.frame(wd$window, fmt(wd$tx), fmt(wd$media_gas)), format = "markdown", align = c("l", "r", "r"), col.names = c("", "Transazioni", "Gas medio"))
+```
+
+</div>
+</div>
+
+>- Dalle 12 alle 17 il gas non scende mai sotto i `r fmt(min(ore$gas_mediano[ore$ora %in% 12:17]))` gwei; poi dimezza, ma in serata resta intorno a `r fmt(median(ore$gas_mediano[ore$ora >= 18]))`, molto sopra i valori del mattino.
+
+>- Il numero di transazioni non è strettamente correlato al prezzo del gas, infatti la finestra con il prezzo gas più alto (12-18) è quella che ne ha meno (`r fmt(wd$tx[wd$window == "12-18"])`).
+
+>- Essendo il gas l'offerta per entrare in un blocco ed essendo lo spazio limitato il prezzo sale quando gli utenti hanno fretta, come nel pomeriggio durante il crollo, non necessariamente quando le transazioni sono più numerose.
+
+
+## Struttura della rete nel tempo
+
+La morfologia della rete cambia durante la giornata? Il grafico mostra il numero di collegamenti di alcuni hub in ciascuna finestra di 6 ore
+
+```{r hubfinestra}
+hf <- hubfinestra %>% mutate(nome = factor(nome, levels = rev(unique(nome))))
+p <- ggplot(hf, aes(x = finestra, y = nome, fill = grado, text = paste0(nome, "<br>Finestra ", finestra, " (UTC)<br>Collegamenti: ", fmt(grado)))) +
+  geom_tile(colour = "#122039", linewidth = 1.5) +
+  geom_text(aes(label = ifelse(grado == 0, "–", fmt(grado)), colour = grado > max(grado) * 0.45), size = 4.6, fontface = "bold") +
+  scale_fill_gradient(low = "#1d3150", high = "#9dc0ee", trans = "sqrt") +
+  scale_colour_manual(values = c("TRUE" = "#0c1526", "FALSE" = "#e8ecf3")) +
+  labs(x = "Finestra di 6 ore (UTC)", y = NULL) +
+  theme(panel.grid = element_blank(), axis.text.y = element_text(colour = "#e8ecf3", size = 12, face = "bold"))
+interattivo(p, 980, 350)
+```
+
+>- La struttura regge: la componente maggiore resta tra l'`r pct(min(reti$compmax))` e l'`r pct(max(reti$compmax))` degli indirizzi in tutte le finestre.
+
+>- Cambiano però gli hub attivi, ad esempio F2Pool è attivo soltanto nelle ore notturne, Spark Pool e Hiveon solo al mattino.
+
+>- Il motivo è nel metodo di pagamento: F2Pool, Spark Pool e Hiveon pagano i miner in un'unica serie di movimenti concentrati in poche ore (notte/mattina), Ethermine invece paga lungo tutta la giornata.
+
+>- Inoltre è possibile notare un picco di attività di Binance in concomitanza con il crollo, anche se mi aspettavo un aumento maggiore.
+
+```{r calmo, include=FALSE}
+transactions2 <- readRDS("transactions2.rds")
+edge2 <- transactions2 %>% dplyr::filter(!is.na(to), from != to) %>% summarise(n_tx = n(), eth = sum(value_eth), .by = c(from, to))
+graph2 <- graph_from_data_frame(edge2, directed = TRUE)
+grado12 <- degree(graphA)[ind(hubfin)]
+grado5 <- degree(graph2)[ind(hubfin)]
+confrontogiorni <- data.frame(hub = hubfin, calmo = unname(ifelse(is.na(grado5), 0, grado5)), crollo = unname(ifelse(is.na(grado12), 0, grado12)), stato = c("Attivo", "Attivo", "Chiuso", "Cambio indirizzo", "Chiuso", "Chiuso", "Chiuso", "Cambio indirizzo"), ultima = c("In corso", "In corso", "17 giorni fa", "1+ anni fa", "3+ anni fa", "5+ anni fa", "80 giorni fa", "6+ anni fa"))
+```
+
+## Confronto con altre giornate
+
+Per avere più informazioni è stata ripetuta l'analisi per il giorno del 5 Marzo 2020, ovvero una settimana prima del crollo, e con una data vicina al presente (23/10/2026).
+Nel primo caso la struttura rimane simile e come atteso diminuisce sia il costo mediano del gas che il numero di ETH mossi.
+Nel secondo caso, essendo passati 6 anni, molti degli hub sono inattivi o hanno cambiato indirizzo.
+
+```{r calmotab, results = "asis"}
+kable(data.frame(Hub = gsub(" ", " ", confrontogiorni$hub), "Collegamenti 5 marzo" = fmt(confrontogiorni$calmo), "Collegamenti 12 marzo" = fmt(confrontogiorni$crollo), "Stato oggi" = confrontogiorni$stato, "Ultima transazione inviata" = confrontogiorni$ultima, check.names = FALSE), format = "markdown", align = c("l", "r", "r", "r", "r"))
+```
+
+>- I pool di mining hanno chiuso principalmente per il passaggio al metodo proof-of-stake.
+
+>- Ethermine e F2Pool mostrano ancora qualche transazione: sono probabilmente pagamenti dei saldi rimasti ai miner; Nanopool opera ancora ma estrae altre criptovalute (Ethereum Classic), quindi su questo indirizzo non ha più movimenti.
+
+>- In sintesi, tra una giornata calma e il crollo la struttura rimane simile e cambia solo l'attività, mentre a sei anni di distanza sono cambiati gli hub: restano attivi solo i contratti dei token (USDT, USDC).
+
+## Sunto finale
+
+>- **Parte 1**: la rete è a stella, con pochi hub enormi: togliendo i 100 indirizzi più connessi la componente maggiore scende dal `r pct(res$tolti_hub[res$rimossi == 0])` al `r pct(res$tolti_hub[res$rimossi == 100])`, simulando un guasto casuale rimane invariata. Scegliere le transazioni o gli ETH mossi come peso degli archi cambia significativamente l'importanza dei nodi.
+
+>- **Parte 2**: gli hub non sono indirizzi privati ma contratti di token, pool di mining ed exchange: con le transazioni comandano i contratti (USDT, USDC), con gli ETH mossi gli exchange.
+
+>- **Parte 3**: il crollo cambia il costo di usare la rete (il gas necessario nel pomeriggio è 30 volte superiore al mattino) ma non la struttura, che resta simile a quella di una giornata calma; a sei anni di distanza sono invece totalmente cambiati gli hub principali a causa di chiusure e modifiche.
+
+<div class="ia">
+
+Disclaimer sull'uso dell’AI: il codice è stato in parte generato con Claude e poi corretto a mano. Le scelte di progetto (idee, direzione, giornate da analizzare) e le interpretazioni dei risultati sono personali.
+
+</div>
